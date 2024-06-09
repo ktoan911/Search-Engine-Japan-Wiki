@@ -8,18 +8,24 @@ import os
 # Set environment variable to allow duplicate OpenMP runtime
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 
+question_encoder = DPRQuestionEncoder.from_pretrained(
+    "facebook/dpr-question_encoder-single-nq-base")
+context_encoder = DPRContextEncoder.from_pretrained(
+    "facebook/dpr-ctx_encoder-single-nq-base")
+
+question_tokenizer = DPRQuestionEncoderTokenizer.from_pretrained(
+    "facebook/dpr-question_encoder-single-nq-base")
+context_tokenizer = DPRContextEncoderTokenizer.from_pretrained(
+    "facebook/dpr-ctx_encoder-single-nq-base")
+
 
 class ReRanker():
     def __init__(self):
-        self.question_encoder = DPRQuestionEncoder.from_pretrained(
-            "facebook/dpr-question_encoder-single-nq-base")
-        self.context_encoder = DPRContextEncoder.from_pretrained(
-            "facebook/dpr-ctx_encoder-single-nq-base")
+        self.question_encoder = question_encoder
+        self.context_encoder = context_encoder
 
-        self.question_tokenizer = DPRQuestionEncoderTokenizer.from_pretrained(
-            "facebook/dpr-question_encoder-single-nq-base")
-        self.context_tokenizer = DPRContextEncoderTokenizer.from_pretrained(
-            "facebook/dpr-ctx_encoder-single-nq-base")
+        self.question_tokenizer = question_tokenizer
+        self.context_tokenizer = context_tokenizer
 
     def get_embedding(self, contexts, type='query'):
         # Hàm thực hiện map
@@ -37,7 +43,7 @@ class ReRanker():
             # Tạo batch các inputs cho các context
             batch_context_inputs = self.context_tokenizer(
                 contexts, padding=True, truncation=True, return_tensors="pt")
-            # Mã hóa batch context
+            # Tokenize batch context
             with torch.no_grad():
                 batch_context_embeddings = self.context_encoder(
                     **batch_context_inputs).pooler_output

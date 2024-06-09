@@ -13,7 +13,8 @@ class TFIDF():
         print("Load ds done!")
 
         with open(doc_path, 'r') as infile:
-            self.docs = json.load(infile)
+            data = json.load(infile)
+        self.docs = data['docs']
         print("Load docs done!")
 
     def search(self, q, k=10):
