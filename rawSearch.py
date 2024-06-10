@@ -1,27 +1,39 @@
 import json
 
 
+tf_path = r'Json_file\tf_idf_dict.json'
+ds_path = r'Json_file\ds.json'
+doc_path = r'Json_file\docs.json'
+
+
+def get_tfidf_dict(tf_idf_path):
+    def json_line_reader(file_path):
+        with open(file_path, 'r') as f:
+            for line in f:
+                yield json.loads(line.strip())
+    # Load
+    tf_idf_dict = {}
+    for item in json_line_reader(tf_idf_path):
+        tf_idf_dict.update(item)
+    return tf_idf_dict
+
+
+tf_idf_dict = get_tfidf_dict(tf_path)
+
+with open(ds_path, 'r') as f:
+    ds = json.load(f)
+
+with open(doc_path, 'r') as f:
+    data = json.load(f)
+docs = data['docs']
+
+
 class TFIDF():
-    def __init__(self, tf_idf_path, ds_path, doc_path):
-
-        def json_line_reader(file_path):
-            with open(file_path, 'r') as f:
-                for line in f:
-                    yield json.loads(line.strip())
+    def __init__(self):
         # Load
-        self.tf_idf_dict = {}
-        for item in json_line_reader(tf_idf_path):
-            self.tf_idf_dict.update(item)
-        print("Load tf-idf done!")
-
-        with open(ds_path, 'r') as f:
-            self.ds = json.load(f)
-        print("Load ds done!")
-
-        with open(doc_path, 'r') as f:
-            data = json.load(f)
-        self.docs = data['docs']
-        print("Load docs done!")
+        self.tf_idf_dict = tf_idf_dict
+        self.ds = ds
+        self.docs = docs
 
     def search(self, q, k=10):
         def tf_idf_score(word, doc_idx):
@@ -34,7 +46,7 @@ class TFIDF():
                 return 0.0
         # Search documents using TF-IDF
         finals = []
-        #print(self.tf_idf_dict)
+        # print(self.tf_idf_dict)
         # Lặp qua những văn bản
         for i in range(len(self.docs)):
             if self.ds[str(i)] == 0:
@@ -48,6 +60,3 @@ class TFIDF():
         final_sort = sorted(finals, key=lambda x: -x[0])
         results = [self.docs[i] for _, i in final_sort[:k]]
         return results
-
-
-

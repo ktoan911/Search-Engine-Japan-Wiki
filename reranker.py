@@ -50,7 +50,7 @@ class ReRanker():
             # shape: (number of sentence, embedding size)
             return batch_context_embeddings.detach().numpy()
 
-    def rank(self, query, docs):
+    def rank(self, query, docs, k=1):
 
         # Load các docs từ TF-IDF và chuyển thành Hugging Dataset
         # Thực hiện tìm vector tương đồng với query
@@ -71,6 +71,7 @@ class ReRanker():
             enumerate(similarities), key=lambda x: x[1], reverse=True)
 
         # Trích xuất chỉ số và giá trị từ danh sách đã sắp xếp
-        result_docs = [docs[index] for index, _ in sorted_list_with_indices]
+        result_docs = [docs[index]
+                       for index, _ in sorted_list_with_indices[:k]]
 
         return result_docs
