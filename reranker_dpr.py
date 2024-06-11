@@ -2,6 +2,7 @@ from transformers import DPRQuestionEncoder, DPRContextEncoder, DPRQuestionEncod
 import torch
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from datasets import Dataset
 
 import os
 

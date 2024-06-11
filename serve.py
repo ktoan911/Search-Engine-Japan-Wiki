@@ -1,6 +1,6 @@
 import TF_IDF_Search
 from rawSearch import TFIDF
-from reranker_vibert import ReRanker_Vibert
+from reranker_vibert_faiss import ReRanker_Vibert
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def handle_query():
         return jsonify({'error': 'No query provided'}), 400
 
     # Example response based on the query
-    clean_query = tfidf.preprocessing([query])[0]
+    clean_query = process_query(query)
 
     # Search using TF-IDF
     filtered_results = tf_idf.search(clean_query, 10)
@@ -32,6 +32,7 @@ def handle_query():
 
 
 def process_query(query):
+    query = tfidf.preprocessing([query])[0]
     return query
 
 
