@@ -2,6 +2,7 @@ import TF_IDF_Search
 from rawSearch import TFIDF
 from reranker_vibert_faiss import ReRanker_Vibert
 from flask import Flask, request, jsonify
+from sentence_process import process_query
 
 app = Flask(__name__)
 
@@ -26,14 +27,9 @@ def handle_query():
     filtered_results = tf_idf.search(clean_query, 10)
 
     # Re-rank using AI
-    scores = re_ranker.rank(query, filtered_results)
+    scores = re_ranker.rank(clean_query, filtered_results)
 
     return jsonify({'response': scores})
-
-
-def process_query(query):
-    query = tfidf.preprocessing([query])[0]
-    return query
 
 
 if __name__ == '__main__':
