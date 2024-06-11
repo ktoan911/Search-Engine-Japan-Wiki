@@ -1,1 +1,12 @@
+# IDE-specific files
+.idea/
+.vscode/
+
+# Byte-compiled / optimized files
+*/__pycache__/
+__pycache__
+
+# Distribution / packaging
 test.py
+test1.py
+tempCodeRunnerFile.py
