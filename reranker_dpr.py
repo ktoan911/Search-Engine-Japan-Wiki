@@ -19,7 +19,7 @@ context_tokenizer = DPRContextEncoderTokenizer.from_pretrained(
     "facebook/dpr-ctx_encoder-single-nq-base")
 
 
-class ReRanker():
+class ReRanker_DPR():
     def __init__(self):
         self.question_encoder = question_encoder
         self.context_encoder = context_encoder
