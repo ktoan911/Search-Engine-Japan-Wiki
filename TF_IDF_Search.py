@@ -3,47 +3,34 @@ import math
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import defaultdict
+from datasets import load_datase
+import MeCab
+import re
+from datasets import load_dataset
 
 
 class TF_IDF_Init():
     def __init__(self, folder_path=None, retrain=False):
         # Load data
         if retrain:
-            self.data = self.load_processed_data(folder_path)
+            doc_temp = self.load_processed_data()
+            self.data = [self.preprocess_text(doc) for doc in doc_temp]
 
-    def load_processed_data(self, folder_path):
-        data = []
-        for filename in os.listdir(folder_path):
-            with open(os.path.join(folder_path, filename), 'r') as f:  # open in readonly mode
-                # do your stuff
-                with open(filename, 'r') as f:
-                    text = f.read()
-                    data.append(self.preprocessing(text))
-        return data
+    def load_processed_data(self, name_dataset="fujiki/llm-japanese-dataset_wikipedia", num_docs=7000):
+        dataset = load_dataset(name_dataset)
+        return dataset['train']['output'][:num_docs]
 
-    def preprocessing(self, docs):
-        letters = set(
-            'aáàảãạăaáàảãạăắằẳẵặâấầẩẫậbcdđeéèẻẽẹêếềểễệfghiíìỉĩịjklmnoóòỏõọôốồổỗộơớờởỡợpqrstuúùủũụưứừửữựvwxyýỳỷỹỵz0123456789')
+    def preprocess_text(self, text):
+        # Loại bỏ các ký tự không mong muốn
+        # Loại bỏ ký tự đặc biệt nhưng giữ lại các ký tự tiếng Nhật
+        text = re.sub(r'[^\w\sぁ-んァ-ン一-龥々ー]', '', text)
+        text = re.sub(r'\d+', '', text)  # Loại bỏ số
 
-        def clean_word(w):
-            new_w = ''
-            for letter in w:
-                if letter.lower() in letters or letter == '.':
-                    new_w += letter.lower()
+        # Tách từ sử dụng MeCab
+        mecab = MeCab.Tagger('-Owakati')
+        tokenized_text = mecab.parse(text).strip()
 
-            return new_w
-        new_docs = []
-        new_doc = ''
-        for i in range(len(docs)):
-            doc = docs[i]
-            doc = doc.replace('\n', ' ').replace('==', ' ')
-            words = doc.split()
-            for j in range(len(words)):
-                word = clean_word(words[j])
-                words[j] = word
-            new_doc = ' '.join(words)
-            new_docs.append(new_doc)
-        return new_docs
+        return tokenized_text
 
     def compute_tf_idf(self, num_docs):
         def rounding(num):

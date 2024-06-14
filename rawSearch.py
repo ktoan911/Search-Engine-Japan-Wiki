@@ -2,9 +2,9 @@ import json
 from datasets import Dataset
 
 
-tf_path = r'Json_file\tf_idf_dict.json'
-ds_path = r'Json_file\ds.json'
-doc_path = r'Json_file\docs.json'
+tf_path = r'Japan_data\tf_idf_dict.json'
+ds_path = r'Japan_data\ds.json'
+doc_path = r'Japan_data\docs.json'
 
 
 def get_tfidf_dict(tf_idf_path):
