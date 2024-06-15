@@ -3,7 +3,7 @@ import math
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import defaultdict
-from datasets import load_datase
+from datasets import load_dataset
 import MeCab
 import re
 from datasets import load_dataset

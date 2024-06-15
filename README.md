@@ -57,7 +57,9 @@ The k texts with the highest scores will be selected.
 
 ## IV. Demo
 
+![image](Assets/Demo.png)
 
+In this case, the query speed is 1.5s
 
 
 

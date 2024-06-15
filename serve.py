@@ -26,7 +26,7 @@ def handle_query():
     filtered_results = tf_idf.search(clean_query, 10)
 
     # Re-rank using AI
-    scores = re_ranker.rank(clean_query, filtered_results)
+    scores = re_ranker.rank(clean_query.replace(' ',''), filtered_results)
 
     return jsonify({'response': scores})
 
