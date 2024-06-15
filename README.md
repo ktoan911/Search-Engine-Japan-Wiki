@@ -11,7 +11,7 @@ This project is a Japanese Wiki Search Engine designed to retrieve information f
 
 ## Architecture Image
 
-![image](Assets\Architecture.jpg)
+![image](Assets/Architecture.jpg)
 
 ## I.  Set up environment
 - Step 1: create a Conda environment named your_env_name with Python version  3.11.3
@@ -47,7 +47,7 @@ dataset = load_dataset("fujiki/llm-japanese-dataset_wikipedia")
 
 The initial query is processed using a coarse-grained search mechanism based on Term Frequency-Inverse Document Frequency (TF-IDF). To improve query speed, we have saved the TF-IDF scores of the words in the paragraphs as well as the penalty `ds` scores in the formula below.
 
-![image](Assets\Document_score.png)
+![image](Assets/Document_score.png)
 
 The k texts with the highest scores will be selected.
 
