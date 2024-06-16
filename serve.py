@@ -1,11 +1,9 @@
-import TF_IDF_Search
 from rawSearch import TFIDF
 from reranker import ReRanker
 from flask import Flask, request, jsonify
 from sentence_process import raw_process_query
 
 app = Flask(__name__)
-
 
 tf_idf = TFIDF()
 re_ranker = ReRanker()

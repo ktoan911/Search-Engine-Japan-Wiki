@@ -1,5 +1,4 @@
 import json
-from datasets import Dataset
 
 
 tf_path = r'Japan_data\tf_idf_dict.json'

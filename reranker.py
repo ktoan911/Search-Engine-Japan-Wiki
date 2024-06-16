@@ -46,7 +46,7 @@ MODEL_NAME = "sonoisa/sentence-luke-japanese-base-lite"
 model = SentenceLukeJapanese(MODEL_NAME)
 
 
-class ReRanker():
+class ReRanker:
     def __init__(self):
         self.model = model
 
@@ -76,7 +76,6 @@ class ReRanker():
 
         # Đánh index cho cột embeddings
         ds_with_embeddings.add_faiss_index(column='embeddings')
-
 
         # Tính toán độ tương đồng
         scores, retrieved_examples = ds_with_embeddings.get_nearest_examples(
