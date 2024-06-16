@@ -45,7 +45,7 @@ dataset = load_dataset("fujiki/llm-japanese-dataset_wikipedia")
 ## III.  Architecture
 ### 1. Raw Search (TF-IDF):
 
-The initial query is processed using a coarse-grained search mechanism based on Term Frequency-Inverse Document Frequency (TF-IDF). To improve query speed, we have saved the TF-IDF scores of the words in the paragraphs as well as the penalty `ds` scores in the formula below.
+The initial query is processed using a coarse-grained search mechanism based on Term Frequency-Inverse Document Frequency (TF-IDF). To improve query speed, we have saved the TF-IDF scores of the words in the paragraphs as well as the penalty scores `ds` in the formula below.
 
 ![image](Assets/Document_score.png)
 
@@ -53,7 +53,7 @@ The k texts with the highest scores will be selected.
 
 ### 2. Similarity Calculation (Cosine Similarity):
 - We use [sentence-luke-japanese-base-lite](https://huggingface.co/sonoisa/sentence-luke-japanese-base-lite) model to embed the texts .
-- In this project we useFAISS (Facebook AI Similarity Search) to effectively search for similar database vectors with high speed and accuracy. We use the cosine method to calculate similarity scores.
+- In this project we use FAISS (Facebook AI Similarity Search) to effectively search for similar database vectors with high speed and accuracy. We use the cosine method to calculate similarity scores.
 
 ## IV. Demo
 
