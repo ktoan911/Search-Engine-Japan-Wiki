@@ -5,7 +5,7 @@ Authors:
 
 
 
-This project is a Japanese Wiki Search Engine designed to retrieve information from Japanese language Wikipedia articles efficiently. It utilizes a combination of indexing, querying, and ranking algorithms to provide relevant results to user queries.
+This project is a Japanese Wiki Search Engine designed to retrieve information from Japanese language Wikipedia articles (7000 documents) efficiently. It utilizes a combination of indexing, querying, and ranking algorithms to provide relevant results to user queries.
 
 
 
@@ -59,7 +59,7 @@ The k texts with the highest scores will be selected.
 
 ![image](Assets/Demo.png)
 
-In this case, the query speed is 1.5s
+In this case, the query speed is 227ms.
 
 
 
