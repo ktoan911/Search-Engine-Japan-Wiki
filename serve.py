@@ -8,7 +8,7 @@ app = Flask(__name__)
 tf_idf = TFIDF()
 re_ranker = ReRanker()
 
-
+# chunking to upadte document
 @app.route('/api/search', methods=['POST'])
 def handle_query():
     data = request.get_json()
@@ -18,15 +18,14 @@ def handle_query():
         return jsonify({'error': 'No query provided'}), 400
 
     # Example response based on the query
-    clean_query = raw_process_query(query)
 
     # Search using TF-IDF
-    filtered_results = tf_idf.search(clean_query, 10)
+    filtered_results = tf_idf.search(raw_process_query(query), 10)
 
     # Re-rank using AI
-    scores = re_ranker.rank(clean_query.replace(' ',''), filtered_results)
+    scores = re_ranker.rank(query, filtered_results)
 
-    return jsonify({'response': scores})
+    return jsonify({'response': scores[0]})
 
 
 if __name__ == '__main__':

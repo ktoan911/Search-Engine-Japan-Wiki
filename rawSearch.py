@@ -55,8 +55,8 @@ class TFIDF():
             # Lặp qua các từ trong truy vấn
             for t in q.split():
                 t = t.lower()
-            score += tf_idf_score(t, i) / self.ds[str(i)]
-            finals.append((score, i))
+                score += tf_idf_score(t, i) / self.ds[str(i)]
+                finals.append((score, i))
         final_sort = sorted(finals, key=lambda x: -x[0])
         results = [self.docs[i] for _, i in final_sort[:k]]
         return results

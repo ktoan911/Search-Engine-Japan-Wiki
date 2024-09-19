@@ -18,10 +18,8 @@ class SentenceLukeJapanese:
         self.model.to(device)
 
     def _mean_pooling(self, model_output, attention_mask):
-        # First element of model_output contains all token embeddings
-        token_embeddings = model_output[0]
-        input_mask_expanded = attention_mask.unsqueeze(
-            -1).expand(token_embeddings.size()).float()
+        token_embeddings = model_output[0] #First element of model_output contains all token embeddings
+        input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
         return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
 
     @torch.no_grad()
@@ -31,11 +29,10 @@ class SentenceLukeJapanese:
         for batch_idx in iterator:
             batch = sentences[batch_idx:batch_idx + batch_size]
 
-            encoded_input = self.tokenizer.batch_encode_plus(batch, padding="longest",
-                                                             truncation=True, return_tensors="pt").to(self.device)
+            encoded_input = self.tokenizer.batch_encode_plus(batch, padding="longest", 
+                                           truncation=True, return_tensors="pt").to(self.device)
             model_output = self.model(**encoded_input)
-            sentence_embeddings = self._mean_pooling(
-                model_output, encoded_input["attention_mask"]).to('cpu')
+            sentence_embeddings = self._mean_pooling(model_output, encoded_input["attention_mask"]).to('cpu')
 
             all_embeddings.extend(sentence_embeddings)
 
@@ -45,7 +42,6 @@ class SentenceLukeJapanese:
 MODEL_NAME = "sonoisa/sentence-luke-japanese-base-lite"
 model = SentenceLukeJapanese(MODEL_NAME)
 
-
 class ReRanker:
     def __init__(self):
         self.model = model
@@ -54,6 +50,8 @@ class ReRanker:
         # Hàm thực hiện map
         # Nhiệm vụ:
         # tokenizer mẫu hiện tại
+        if isinstance(contexts, str):
+            contexts = [contexts]
         sentence_embeddings = model.encode(contexts, batch_size=batch_size)
         return sentence_embeddings.detach().numpy()
 

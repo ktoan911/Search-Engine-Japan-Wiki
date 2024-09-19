@@ -49,10 +49,10 @@ stop_words_japanese = [
 ]
 
 
-def raw_process_query(text, mecab=True):
+def raw_process_query(raw_text, mecab=True):
     # Loại bỏ các ký tự không mong muốn
     # Loại bỏ ký tự đặc biệt nhưng giữ lại các ký tự tiếng Nhật
-    text = re.sub(r'[^\w\sぁ-んァ-ン一-龥々ー]', '', text)
+    text = re.sub(r'[^\w\sぁ-んァ-ン一-龥々ー]', '', raw_text)
     text = re.sub(r'\d+', '', text)  # Loại bỏ số
 
     # Tách từ sử dụng MeCab
@@ -61,5 +61,13 @@ def raw_process_query(text, mecab=True):
         text = mecab.parse(text).strip()
         clean_query = ' '.join(
             [word for word in text.split() if word not in stop_words_japanese])
-
-    return clean_query
+        if clean_query == "":
+            return raw_text
+        else:
+            return clean_query
+    else:
+        if text == "":
+            return raw_text
+        else:
+            return text
+    
